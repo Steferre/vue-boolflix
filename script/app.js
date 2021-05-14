@@ -42,8 +42,8 @@ const app = new Vue({
     el:'#mainContainer',
     data: {
         userSearch: "",
-        filmsList: [],
-        seriesList: [],
+        filmsList: null,
+        seriesList: null,
         //firstHalfSrcPath: "https://image.tmdb.org/t/p/w154"
     },
     methods: {

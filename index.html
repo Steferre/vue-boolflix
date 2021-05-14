@@ -7,6 +7,7 @@
     <title>VUE-BOOLFLIX</title>
     <link rel="stylesheet" href="cssFlags/flag-icon.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
@@ -23,12 +24,12 @@
             </nav>
         </header>
         <main>
-            <div class="filmsBox" v-if="filmsList !== []">
-                <h2>LISTA FILM</h2>
-                <div class="filmCard" v-for="film in filmsList">
+            <h2>LISTA FILM</h2>
+            <div class="cardsBox" v-if="filmsList">
+                <div class="card" v-for="film in filmsList">
                     <!--immagine copertina film-->
-                    <img :src="`https://image.tmdb.org/t/p/w154${film.poster_path}`"  alt="film poster"
-                        v-if="film.poster_path">
+                    <img v-if="film.poster_path" :src="`https://image.tmdb.org/t/p/w154${film.poster_path}`"  alt="film poster" class="imageSize">
+                    <img v-else src="img/img_coomingSoon.png" alt="no image" class="imageSize">
                     <!--titolo-->
                     <div class="title" v-if="film.original_title !== film.title"></div>
                     <!--titolo originale-->
@@ -44,12 +45,12 @@
                     </div>
                 </div>
             </div>
-            <div class="seriesBox" v-if="seriesList !== []">
-                <h2>LISTA SERIE TV</h2>
-                <div class="serieCard" v-for="serie in seriesList">
+            <h2>LISTA SERIE TV</h2>
+            <div class="cardsBox" v-if="seriesList">
+                <div class="card" v-for="serie in seriesList">
                     <!--immagine copertina serie-->
-                    <img :src="`https://image.tmdb.org/t/p/w154${serie.poster_path}`"  alt="serie poster"
-                        v-if="serie.poster_path">
+                    <img v-if="serie.poster_path" :src="`https://image.tmdb.org/t/p/w154${serie.poster_path}`"  alt="serie poster" class="imageSize">
+                    <img v-else src="img/img_coomingSoon.png" alt="no image" class="imageSize">
                     <!--titolo-->
                     <div class="title" v-if="serie.original_name !== serie.name"></div>
                     <!--titolo originale-->
