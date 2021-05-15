@@ -4,25 +4,94 @@
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+/*sezione header*/
+.navbar {
+    display: flex;
+    padding: 25px;
+    background-color: #000000;
+}
+
+.logo {
+    color: #FF0000;
+    flex-grow: 1;
+}
+
+.inputStyle {
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+.inputStyle:active,
+.inputStyle:focus {
+    outline: none;
+}
+
+.btnStyle {
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/*stile scrollbar*/
+::-webkit-scrollbar {
+    width: 5px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #00000050;
+    border-radius: 10px;
+}
+
+/*sezione main*/
+main{
+    background-color: #434343;
+}
+
+.category {
+    padding: 25px;
+    color: #FFFFFF;
+}
 
 .cardsBox {
     display: flex;
     flex-wrap: wrap;
-    height: 500px;
+    height: calc(100vh - 164px);
     overflow: auto;
 }
 
 .card {
-    flex-basis: calc(100% / 4);
+    flex-basis: calc(100% / 3);
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 10px 0;
+    cursor: pointer;
+    position: relative;
+}
+
+.card img {
+    border: 3px solid #8D8D8D;
+    border-radius: 5px;
+    position: relative;
 }
 
 .imageSize {
-    width: 154px;
-    height: 220px;
+    width: 342px;
+    height: 513px;
     object-fit: cover;
+    border-radius: 5px;
 }
 
+.layover {
+    position: absolute;
+    border: 3px solid #8D8D8D;
+    background-color: #00000070;
+    z-index: 1;
+    display: none;
+    color: white;
+}
+
+.card:hover .layover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
