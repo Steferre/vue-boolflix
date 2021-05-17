@@ -36,7 +36,15 @@ lasciando le restanti vuote (troviamo le icone in FontAwesome).
 Arrotondiamo sempre per eccesso all’unità successiva, non gestiamo icone mezze
 piene (o mezze vuote :P)
 --------------------------------------------------------------------------------------
-
+Milestone 4:
+Trasformiamo quello che abbiamo fatto fino ad ora in una vera e propria webapp,
+creando un layout completo simil-Netflix:
+● Un header che contiene logo e search bar
+● Dopo aver ricercato qualcosa nella searchbar, i risultati appaiono sotto forma
+di “card” in cui lo sfondo è rappresentato dall’immagine di copertina (consiglio
+la poster_path con w342)
+● Andando con il mouse sopra una card (on hover), appaiono le informazioni
+aggiuntive già prese nei punti precedenti più la overview
 */
 const app = new Vue({
     el:'#mainContainer',
@@ -93,16 +101,37 @@ const app = new Vue({
             return countryFlag;
         },
         getStarsRating(target) {
-            //prendo la media del voto del film o della serie
-            const vote = target.vote_average;
-            // cosi' ottengo il voto da 1 a 10 
-            // adesso lo trasformo in un voto intero
-            const intVote = parseInt(vote);
-            // converto il voto in stelle ma devono essere da 1 a 5 stelle
-            // quindi divido il voto intero per 2
-            const voteToStars = parseInt(intVote / 2);
-            return voteToStars;
+            // prendo la media del voto del film o della serie
+            // ottengo il voto da 1 a 10 che devo dividere per 2
+            // in quanto le stelle devono essere da 1 a 5
+            // con il parseInt lo lascio intero  
+            const vote = Math.round(target.vote_average / 2);
+
+            // creo un array da trasfomare in stelle
+            const stars = [];
+            
+            for(let i = 0; i < 5; i++) {
+                if(i < vote) {
+                    stars.push(1);
+                } else {
+                    stars.push(0);
+                }
+            }
+
+            return stars;
         },
+        createPoster(type) {
+            //${film.poster_path}
+            const initialPath = "https://image.tmdb.org/t/p/";
+            const posterWidth = "w342";
+            const searchedType = type.poster_path;
+
+            if(searchedType) {
+                return `${initialPath}${posterWidth}${searchedType}`;
+            } else {
+                return "../img/img_coomingSoon.png";
+            }
+        }
     },
     computed: {},
     mounted() {  

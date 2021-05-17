@@ -27,61 +27,54 @@
             </nav>
         </header>
         <main>
-            <h2 class="category">FILM</h2>
+            <h2 class="category" v-if="filmsList">FILM</h2>
             <div class="cardsBox" v-if="filmsList">
                 <div class="card" v-for="film in filmsList">
                     <div class="layover imageSize">
                         <!--titolo-->
-                        <div class="title" v-if="film.original_title !== film.title"></div>
+                        <div class="title" v-if="film.original_title !== film.title">Titolo {{film.title}}</div>
                         <!--titolo originale-->
-                        <div class="originalTitle">{{film.original_title}}</div>
+                        <div class="originalTitle">Original Title: {{film.original_title}}</div>
                         <!--lingua-->
                         <div class="language">
                             <span class="flag-icon" :class="getCountryFlag(film)"></span>
                         </div>
                         <!--voto-->
                         <div class="vote">
-                            <i class="fa fa-star" :style="{color: 'gold'}" v-for="star in getStarsRating(film)"></i>
-                            <i class="fa fa-star-o" :style="{color: 'gold'}" v-for="emptyStar in (5 - getStarsRating(film))"></i>
+                            <span>Rating: </span>
+                            <i class="fa" :class="{'fa-star': star === 1, 'fa-star-o': star === 0}" :style="{color: 'gold'}" v-for="star in getStarsRating(film)"></i>
+                        </div>
+                        <!--overview/trama-->
+                        <div class="overview">
+                            <p>Overview: {{film.overview}}</p>
                         </div> 
                     </div>
                     <!--immagine copertina film-->
-                    <img v-if="film.poster_path" :src="`https://image.tmdb.org/t/p/w342${film.poster_path}`"  alt="film poster" class="imageSize">
-                    <img v-else src="img/img_coomingSoon.png" alt="no image" class="imageSize">
-                    <!--titolo-->
-                    <div class="title" v-if="film.original_title !== film.title"></div>
-                    <!--titolo originale-->
-                    <div class="originalTitle">{{film.original_title}}</div>
-                    <!--lingua-->
-                    <div class="language">
-                        <span class="flag-icon" :class="getCountryFlag(film)"></span>
-                    </div>
-                    <!--voto-->
-                    <div class="vote">
-                        <i class="fa fa-star" :style="{color: 'gold'}" v-for="star in getStarsRating(film)"></i>
-                        <i class="fa fa-star-o" :style="{color: 'gold'}" v-for="emptyStar in (5 - getStarsRating(film))"></i>
-                    </div>
+                    <img :src="createPoster(film)"  alt="film poster" class="imageSize">
                 </div>
             </div>
-            <h2 class="category">SERIE TV</h2>
+            <h2 class="category" v-if="seriesList">SERIE TV</h2>
             <div class="cardsBox" v-if="seriesList">
                 <div class="card" v-for="serie in seriesList">
+                    <div class="layover imageSize">
+                        <!--titolo-->
+                        <div class="title" v-if="serie.original_name !== serie.name">Titolo {{serie.name}}</div>
+                        <!--titolo originale-->
+                        <div class="originalTitle">Original Title: {{serie.original_name}}</div>
+                        <!--lingua-->
+                        <div class="language">
+                            <span class="flag-icon" :class="getCountryFlag(serie)"></span>
+                        </div>
+                        <!--voto-->
+                        <div class="vote">
+                            <span>Rating: </span>
+                            <i class="fa" :class="{'fa-star': star === 1, 'fa-star-o': star === 0}" :style="{color: 'gold'}" v-for="star in getStarsRating(serie)"></i>
+                        </div>
+                        <!--overview/trama-->
+                        <div class="overview">Overview: {{serie.overview}}</div> 
+                    </div>
                     <!--immagine copertina serie-->
-                    <img v-if="serie.poster_path" :src="`https://image.tmdb.org/t/p/w342${serie.poster_path}`"  alt="serie poster" class="imageSize">
-                    <img v-else src="img/img_coomingSoon.png" alt="no image" class="imageSize">
-                    <!--titolo-->
-                    <div class="title" v-if="serie.original_name !== serie.name"></div>
-                    <!--titolo originale-->
-                    <div class="originalTitle">{{serie.original_name}}</div>
-                    <!--lingua-->
-                    <div class="language">
-                        <span class="flag-icon" :class="getCountryFlag(serie)"></span>
-                    </div>
-                    <!--voto-->
-                    <div class="vote">
-                        <i class="fa fa-star" :style="{color: 'gold'}" v-for="star in getStarsRating(serie)"></i>
-                        <i class="fa fa-star-o" :style="{color: 'gold'}" v-for="emptyStar in (5 - getStarsRating(serie))"></i>
-                    </div>
+                    <img :src="createPoster(serie)"  alt="serie poster" class="imageSize">
                 </div>
             </div>
         </main>
