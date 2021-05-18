@@ -44,6 +44,12 @@
                             <span>Rating: </span>
                             <i class="fa" :class="{'fa-star': star === 1, 'fa-star-o': star === 0}" :style="{color: 'gold'}" v-for="star in getStarsRating(film)"></i>
                         </div>
+                        <div class="castBox">
+                            <span class="castBtn" @click="getFullMovieCast(film)">CAST</span>
+                            <div v-if="film.isVisible">
+                                <span class="actors" v-for="actor in film.actors">{{actor.original_name}}, </span>
+                            </div>
+                        </div>
                         <!--overview/trama-->
                         <div class="overview">
                             <p>Overview: {{film.overview}}</p>
@@ -69,6 +75,12 @@
                         <div class="vote">
                             <span>Rating: </span>
                             <i class="fa" :class="{'fa-star': star === 1, 'fa-star-o': star === 0}" :style="{color: 'gold'}" v-for="star in getStarsRating(serie)"></i>
+                        </div>
+                        <div class="castBox">
+                            <span class="castBtn" @click="getSerieCast(serie)">CAST</span>
+                            <div v-if="serie.isVisible">
+                                <span class="actors" v-for="actor in serie.actors">{{actor.original_name}}, </span>
+                            </div>
                         </div>
                         <!--overview/trama-->
                         <div class="overview">Overview: {{serie.overview}}</div> 

@@ -52,11 +52,14 @@ const app = new Vue({
         userSearch: "",
         filmsList: null,
         seriesList: null,
+        fullSerieCast: null,
+        urlFirstPart: "https://api.themoviedb.org/3/",
+        api_key_path: "?api_key=70420ad26ad9fc16d1d09445d6c02437",
         //firstHalfSrcPath: "https://image.tmdb.org/t/p/w154"
     },
     methods: {
         getNewUrl() {
-            let modifiedUrl = `https://api.themoviedb.org/3/search/movie?api_key=70420ad26ad9fc16d1d09445d6c02437&query=${this.userSearch}`
+            let modifiedUrl = `${this.urlFirstPart}search/movie${this.api_key_path}&query=${this.userSearch}`
 
             console.log(modifiedUrl)
 
@@ -67,7 +70,8 @@ const app = new Vue({
                     this.filmsList = resp.data.results
             })
 
-            let seriesUrl = `https://api.themoviedb.org/3/search/tv?api_key=70420ad26ad9fc16d1d09445d6c02437&query=${this.userSearch}`
+
+            let seriesUrl = `${this.urlFirstPart}search/tv${this.api_key_path}&query=${this.userSearch}`
             
             axios.get(seriesUrl)
                 .then((resp) => {
@@ -131,10 +135,86 @@ const app = new Vue({
             } else {
                 return "../img/img_coomingSoon.png";
             }
+        },
+        getFullMovieCast(film) {
+            if(film.actors) {
+                return
+            }
+            
+            axios.get(`${this.urlFirstPart}movie/${film.id}/credits${this.api_key_path}`)
+                .then((resp) => {
+                    console.log(resp.data.cast);
+                    this.$set(film, "actors",  resp.data.cast.splice(0,5));
+                });
+            this.$set(film, "isVisible", true)
+
+        },
+        getSerieCast(serie) {
+            if(serie.actors) {
+                return
+            }
+    
+            axios.get(`${this.urlFirstPart}tv/${serie.id}/credits${this.api_key_path}`)
+            .then((resp) => {
+                this.$set(serie, "actors", resp.data.cast.splice(0,5));    
+            })
+            this.$set(serie, "isVisible", true)
         }
     },
-    computed: {},
-    mounted() {  
+    computed: {
+    },
+    mounted() { 
     }
 
 })
+/*
+ getNewUrl(type) {
+            let typeOfSearch = "";
+            if(type.adult) {
+                typeOfSearch = "movie";
+            } else {
+                typeOfSearch = "tv";
+            }
+
+            let customUrl = `${this.urlFirstPart}search/${typeOfSearch}${this.api_key_path}&query=${this.userSearch}`
+
+            console.log(customUrl)
+
+            axios.get(customUrl)
+                .then((resp) => {
+                    console.log(resp.data.results)
+
+                    this.filmList = resp.data.results
+            })
+
+        },
+*/
+        /*
+        getFullMovieCast(type) {
+            // type puo' essere o film o serie
+            // ma nella chiamata axios film deve essere movie
+            // e serie deve essere tv
+            let typeOfSearch;
+
+            if(type === "film") {
+                typeOfSearch = "movie";
+            } else if(type === "serie") {
+                typeOfSearch = "tv";
+            }
+
+            if(type.actors) {
+                return
+            }
+            
+            axios.get(`${this.urlFirstPart}${typeOfSearch}/${type.id}/credits${this.api_key_path}`)
+                .then((resp) => {
+                    console.log(resp.data.cast);
+                    this.$set(type, "actors",  resp.data.cast.splice(0,5));
+                });
+            this.$set(type, "isVisible", true)
+
+            onOff(film) {
+            
+                film.isVisible = !film.isVisible;
+        },
+        */
